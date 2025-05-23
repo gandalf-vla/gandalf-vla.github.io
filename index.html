@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="GANDALF: Grounding Autonomous Driving Agents With Language Feedback">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GANDALF: Grounding Autonomous Driving Agents With Language Feedback</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">GANDALF: Grounding Autonomous Driving Agents With Language Feedback</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <div></div>Anonymous Authors</div>
+              <div>NeurIPS 2025 (Under Review)</div>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div style="text-align: center;">
+        <img src="./static/images/teaser.png" alt="GANDALF teaser", style="max-width: 90%;" />
+      </div>
+      <h2 class="subtitle has-text-centered">
+        <span class="method">GANDALF</span> is a simple yet effective framework for training vision-language-action models (VLAs) for autonomous driving that reason in 3D and improve through natural language supervision.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We propose <span class="method">GANDALF</span> (Grounding Autonomous Driving Agents using Language Feedback), a simple yet effective framework for training vision-language-action models (VLAs) for autonomous driving that reason in 3D and improve through natural language supervision. <span class="method">GANDALF</span> addresses two key limitations: (1) the absence of large-scale, open-source language-annotated driving datasets for planning and reasoning, and (2) the incompatibility of existing 2D vision-language models with the multi-view 3D perception required for driving. Our approach makes minimal architectural modifications to an open-source VLM (Qwen2.5-VL-3B), enabling it to process multi-camera inputs in bird's-eye view (BEV) space while retaining its core language modeling capabilities. To supervise training, we generate a synthetic question-answering dataset from NAVSIM using closed-source video captioning models and offline perception outputs, producing both perception and behavior-oriented language annotations. We show that GANDALF achieves competitive open-loop driving performance, while supporting rich embodied language reasoning and instruction following. Furthermore, we demonstrate that flow-based action decoders allow controllable planning through test-time language guidance. All code, models, and datasets will be released to support further research in vision-language-action agents for autonomous driving.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Method. -->
+    <div class="columns is-centered">
+      <div class="column is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+        
+        <h3 class="title is-4">Adapting 2D VLMs for 3D BEV Perception</h3>
+        <div class="content has-text-justified">
+          <p>
+            We adapt Qwen2.5-VL-3B to process multi-view inputs to directly reason in 3D BEV space.
+            We build off of <a href="https://simple-bev.github.io/"></a>Simple-BEV</a>, which uses non-learned projections to construct a BEV feature volume.
+            
+          </p>
+        <div style="text-align: center;">
+          <img src="./static/images/method_fig.png" alt="Method diagram", style="max-width: 90%;" />
+        </div>
+        </div>
+
+        <h3 class="title is-4">Synthetic Question-Answering Dataset Generation</h3>
+        <div class="content has-text-justified">
+          <p>
+            We use powerful closed-source VLMs (e.g., Gemini 2.0 Flash) to generate synthetic question-answering datasets from NAVSIM.
+            While existing datasets primarily rely on manual human annotation, are small in scale, and/or do not focus on decision-making and planning, our approach allows us to scalably label over 100K driving videos in a few days for relatively low cost.
+            This serves as a strong starting point for training and evaluating driving VLAs against other state-of-the-art driving policies which may not rely on language.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Method. -->
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Results. -->
+    <div class="columns is-centered">
+      <div class="column is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Results</h2>
+        
+        <h3 class="title is-4">NAVSIM Driving Performance</h3>
+        <p>
+          We achieve competitive driving performance on the NAVSIM dataset, outperforming many existing state-of-the-art driving policies.
+        </p>
+        <div class="content has-text-justified">
+          <div style="text-align: center; margin-top: 1.5rem;">
+            <img src="./static/images/results_table.png" alt="NAVSIM results", style="max-width: 80%;" />
+          </div>
+        </div>
+
+        <h3 class="title is-4">Ablations</h3>
+        <div class="content has-text-justified">
+          <p>
+            We explore our design choices in an ablation study conducted on a subset of the NAVSIM test split.
+          </p>
+          <div class="content has-text-justified">
+            <div style="text-align: center; margin-top: 1.5rem;">
+              <img src="./static/images/ablations.png" alt="Ablations", style="max-width: 35%;" />
+            </div>
+          </div>
+          <p>
+            We find that the use of langauge supervision via QA tasks and multi-view perception are both critical to good driving performance.
+            Moreover, we find that flow decoders surprisingly do not perform as well as decoding actions via text.
+            However, they do provide benefits for controllability and test-time guidance.
+          </p>
+        </div>
+
+        <h3 class="title is-4">Embodied Question-Answering</h3>
+        <div class="content has-text-justified">
+          <p>
+            Our VLA is able to answer questions about the scene and reason about its own actions.
+          </p>
+          <div class="content has-text-justified">
+            <div style="text-align: center; margin-top: 1.5rem;">
+              <img src="./static/images/embodiedqa.png" alt="Embodied QA", style="max-width: 100%;" />
+            </div>
+          </div>
+        </div>
+
+        <h3 class="title is-4">Instruction Following</h3>
+        <div class="content has-text-justified">
+          <p>
+            We can guide our VLA to follow complex instructions, even when the instructions are not present in the training data. We find that flow decoders are more controllable than text-based decoders, although at the cost of driving performance.
+          </p>
+          <div class="content has-text-justified">
+            <div style="text-align: center; margin-top: 1.5rem;">
+              <img src="./static/images/instructions.png" alt="Instruction following", style="max-width: 100%;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Results. -->
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website template is taken from <a href="https://github.com/nerfies/nerfies.github.io">here</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
